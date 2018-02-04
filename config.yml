@@ -1,0 +1,17 @@
+endpointType: ${ENDPOINT_TYPE}
+server:
+  type: default
+  rootPath: '/api'
+  applicationConnectors:
+    - type: ${APP_TYPE}
+      port: 9443
+      keyStorePath: keystore
+      keyStorePassword: thisispassword
+      keyStoreType: PKCS12
+      trustStorePath: keystore
+      trustStorePassword: thisispassword
+      trustStoreType: PKCS12
+      jceProvider: ${JCE_PROVIDER}
+  adminConnectors: []
+  requestLog:
+    appenders: []
