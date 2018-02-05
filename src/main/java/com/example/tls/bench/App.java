@@ -10,9 +10,9 @@ import org.conscrypt.OpenSSLProvider;
 import java.security.Security;
 
 public class App extends Application<AppConfig> {
-	static {
-		Security.addProvider(new OpenSSLProvider());
-	}
+    static {
+        Security.addProvider(new OpenSSLProvider());
+    }
 
     public static void main(final String[] args) throws Exception {
         new App().run(args);
