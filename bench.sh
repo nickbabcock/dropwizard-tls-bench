@@ -51,3 +51,5 @@ done;
 done;
 done;
 done;
+
+echo "Done: $(date)"
