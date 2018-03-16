@@ -1,6 +1,6 @@
 # Dropwizard TLS Benchmark
 
-This repo contains the code, benchmark suite, and the analysis of using the Conscrypt JCE Security provider that will be available to users once Dropwizard 1.3 is released. See the complementary post, [Dropwizard 1.3 Upcoming TLS Improvements](https://nbsoftsolutions.com/blog/dropwizard-1-3-upcoming-tls-improvements) for additional background and information.
+This repo contains the code, benchmark suite, and the analysis of using the Conscrypt JCE Security provider that is available to Dropwizard 1.3 users. See the complementary post, [Dropwizard 1.3 Upcoming TLS Improvements](https://nbsoftsolutions.com/blog/dropwizard-1-3-upcoming-tls-improvements) for additional background and information.
 
 This repo also demonstrates how easy it is to add Conscrypt as the ALPN provider so one doesn't need to modify the boot class path with a JRE version specific jar.
 
