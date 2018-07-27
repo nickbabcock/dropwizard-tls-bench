@@ -7,11 +7,10 @@ function clean_up {
     docker-compose down
 }
 
-: "${NGHTTP2_DIR:?Need to set NGHTTP2_DIR}"
-
 trap clean_up SIGHUP SIGINT SIGTERM
 
-docker-compose build web
+truncate --size 0 out.csv
+docker-compose up --no-start web h2load
 
 for i in 0 10 100 1000 10000 100000; do
     head -c $i </dev/urandom > data-$i
@@ -35,13 +34,14 @@ for l in 0 10 100 1000 10000 100000; do
     fi;
 
     CMD="$BF -jar tls.bench-1.0-SNAPSHOT.jar  server config.yml"
-    NAME=$(docker-compose run -d -e ENDPOINT_TYPE=$j -e APP_TYPE=$i -e JCE_PROVIDER=$k --service-ports web $CMD)
+    NAME=$(docker-compose run --use-aliases -d -e ENDPOINT_TYPE=$j -e APP_TYPE=$i -e JCE_PROVIDER=$k web $CMD)
     sleep 2
 
-    "$NGHTTP2_DIR/src/h2load" -N 3s --duration=10 -c100 -m10 -d data-$l -t 2 "https://localhost:9443/$API_PATH" >/dev/null
+    # Warmup
+    docker-compose run -v $(pwd):/tmp --rm --use-aliases h2load -N 3s --duration=10 -c100 -m10  -d /tmp/data-$l -t 2 "https://web:9443/$API_PATH" > /dev/null
 
     for m in {0..4}; do
-        REQ=$("$NGHTTP2_DIR/src/h2load" -N 3s -n100000 -c100 -m10 -d data-$l -t 2 "https://localhost:9443/$API_PATH" | grep finished | grep -o -P '(\d+\.\d+) (?=req/s)')
+        REQ=$(docker-compose run -v $(pwd):/tmp --rm --use-aliases h2load -N 3s --duration=10 -c100 -m10  -d /tmp/data-$l -t 2 "https://web:9443/$API_PATH" | grep finished | grep -o -P '(\d+\.\d+) (?=req/s)')
         printf "$i,$j,$k,$l,$REQ\n" | tee -a out.csv
     done;
 

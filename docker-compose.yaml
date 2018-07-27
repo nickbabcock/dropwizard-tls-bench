@@ -1,11 +1,14 @@
 version: '2'
+
 services:
   web:
     build: .
-    ports:
-     - "127.0.0.1:9443:9443"
     environment:
      - ENDPOINT_TYPE
      - APP_TYPE
      - JCE_PROVIDER
     cpuset: '0'
+  h2load:
+    build:
+      dockerfile: Dockerfile.h2load
+      context: .
