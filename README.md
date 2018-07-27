@@ -6,9 +6,8 @@ This repo also demonstrates how easy it is to add Conscrypt as the ALPN provider
 
 ## Benchmark
 
-- Install Docker and Docker Compose
-- Download and build [nghttp2](https://github.com/nghttp2/nghttp2) if an implementation is not available for your platform
-- Execute `NGHTTP2_DIR=<PATH> ./bench.sh` as a user that can use docker and wait a couple hours
+- Install Docker and Docker Compose (at least 1.20)
+- Execute `./bench.sh` as a user that can use docker and wait a couple hours
 - Resulting benchmarks will be in `out.csv`
 - Chart of the data can be see in `analysis.R`
 
